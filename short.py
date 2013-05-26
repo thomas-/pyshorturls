@@ -2,7 +2,7 @@
 
 import json
 import os
-from flask import Flask, abort, redirect, render_template
+from flask import Flask, abort, redirect, render_template, request
 app = Flask(__name__)
 
 urls = 'urls/'
@@ -10,7 +10,7 @@ urls = 'urls/'
 
 def short_to_full(short):
     with open(os.path.join(urls, short)) as f:
-        return json.load(f)['url']
+        return f.readline()
 
 
 @app.route("/")
@@ -26,6 +26,18 @@ def go(short):
         abort(404)
     print url
     return redirect(url)
+
+
+@app.route('/new/', methods = ['POST'])
+def new():
+    url = request.form['url']
+    short = request.form['short']
+    try:
+        with open(os.path.join(urls, short), 'w+') as f:
+            f.write(url)
+    except:
+        abort(503)
+    return "ok"
 
 
 @app.route("/admin/")
