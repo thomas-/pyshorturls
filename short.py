@@ -2,7 +2,7 @@
 
 import json
 import os
-from flask import Flask, abort, redirect
+from flask import Flask, abort, redirect, render_template
 app = Flask(__name__)
 
 urls = 'urls/'
@@ -15,7 +15,7 @@ def short_to_full(short):
 
 @app.route("/")
 def index():
-    return "tinyurl service"
+    return render_template('index.htm')
 
 
 @app.route("/<short>")
@@ -23,7 +23,6 @@ def go(short):
     try:
         url = short_to_full(short)
     except IOError as e:
-        print e
         abort(404)
     print url
     return redirect(url)

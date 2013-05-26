@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}tuomas.co.uk{% endblock %}</title>
+        <meta name="description" content="tinyurl service">
+        <link rel="stylesheet" type="text/css" media="all" href="{{ url_for('static', filename='style.css') }}">
+        <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script src="{{ url_for('static', filename='js.js') }}"></script>
+    </head>
+    <body>
+        <header>
+         <a href="/blag"><h1 class="home">tuomas.co.uk</h1></a>
+        </header>
+
+        <div class="main">
+            tinyurl service
+            <form>
+                <ul>
+                <li><label>url:</label> <input type="text" name="url">
+                <li><label>short:</label> <input type="text" name="short">
+                <li><input type="submit" value="Submit">
+                </ul>
+            </form>
+        </div>
+
+    </body>
+</html>
+
+
