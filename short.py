@@ -2,6 +2,7 @@
 
 import json
 import os
+from shortuuid import uuid
 from flask import Flask, abort, redirect, render_template, request, escape
 app = Flask(__name__)
 
@@ -11,6 +12,11 @@ urls = 'urls/'
 def short_to_full(short):
     with open(os.path.join(urls, short)) as f:
         return f.readline()
+
+
+def generate_short_url():
+    short = uuid()
+    return short
 
 
 @app.route("/")
@@ -32,6 +38,9 @@ def go(short):
 def new():
     url = escape(request.form['url'])
     short = escape(request.form['short'])
+    print short
+    if not short:
+        short = generate_short_url()
     path = os.path.join(urls, short)
     if os.path.isfile(path):
         return "shorturl already exists"
@@ -40,7 +49,7 @@ def new():
             f.write(url)
     except:
         abort(503)
-    return "ok"
+    return "ok\n" + short
 
 
 @app.route("/admin/")
