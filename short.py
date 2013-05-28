@@ -2,7 +2,7 @@
 
 import json
 import os
-from flask import Flask, abort, redirect, render_template, request
+from flask import Flask, abort, redirect, render_template, request, escape
 app = Flask(__name__)
 
 urls = 'urls/'
@@ -28,12 +28,15 @@ def go(short):
     return redirect(url)
 
 
-@app.route('/new/', methods = ['POST'])
+@app.route('/new/', methods=['POST'])
 def new():
-    url = request.form['url']
-    short = request.form['short']
+    url = escape(request.form['url'])
+    short = escape(request.form['short'])
+    path = os.path.join(urls, short)
+    if os.path.isfile(path):
+        return "shorturl already exists"
     try:
-        with open(os.path.join(urls, short), 'w+') as f:
+        with open(path, 'w+') as f:
             f.write(url)
     except:
         abort(503)
